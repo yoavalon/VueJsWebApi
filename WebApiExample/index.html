@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Product App</title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+       
+    <div id="app-5">
+        <h2>Search by ID</h2>
+        <input  v-model="message" @input="say()" type="text" id="prodId" size="5" />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="product" />
+    </div>
+
+    
+    <script>
+
+        var app6 = new Vue({
+            el: '#app-5',
+            data: {
+                message: '2'
+            },
+            methods: {               
+                say: function () {
+                    find();
+                }
+            }
+        })
+
+    var uri = 'api/products';
+
+    function formatItem(item) {
+      return item.Name + ': $' + item.Price;
+    }
+
+    function find() {
+      var id = $('#prodId').val();
+      $.getJSON(uri + '/' + id)
+          .done(function (data) {
+            $('#product').text(formatItem(data));
+          })
+          .fail(function (jqXHR, textStatus, err) {
+            $('#product').text('Error: ' + err);
+          });
+    }
+    </script>
+</body>
+</html>
